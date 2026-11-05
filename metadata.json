@@ -1,0 +1,6 @@
+{
+  "name": "My Personal Document",
+  "description": "Secure offline personal document vault and identification organizer with local private storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
