@@ -382,7 +382,7 @@ fun HomeScreen(
                             .clickable {
                                 val intent = Intent(
                                     Intent.ACTION_VIEW,
-                                    Uri.parse("https://github.com/mdalam1n/My-id-card_1/releases")
+                                    Uri.parse("https://github.com/mdalam1n/My-id-card/releases")
                                 )
                                 context.startActivity(intent)
                             }
