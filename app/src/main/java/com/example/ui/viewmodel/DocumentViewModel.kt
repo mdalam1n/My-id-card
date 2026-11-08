@@ -23,7 +23,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
     private val repository = DocumentRepository(application)
     private val storageManager = ImageStorageManager(application)
 
-    val userProfile: StateFlow<UserProfile> = repository.userProfile
+        val userProfile: StateFlow<UserProfile> = repository.userProfile
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UserProfile())
 
     val documents: StateFlow> = repository.documents
