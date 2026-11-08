@@ -1,4 +1,4 @@
-Package com.example.ui.screens
+package com.example.ui.screens
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -31,7 +31,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Style
-import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.ZoomIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -42,10 +41,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -85,7 +82,6 @@ fun PersonalCardsScreen(
     var editingCard by remember { mutableStateOf<PersonalCard?>(null) }
     var cardToDelete by remember { mutableStateOf<PersonalCard?>(null) }
 
-    // State for photo picking target: Pair<cardId, isFront: Boolean>
     var photoTarget by remember { mutableStateOf<Pair<String, Boolean>?>(null) }
 
     val photoPickerLauncher = rememberLauncherForActivityResult(
@@ -129,7 +125,6 @@ fun PersonalCardsScreen(
             )
         },
         floatingActionButton = {
-            // Removed 5-card limit restriction for FAB
             FloatingActionButton(
                 onClick = { showAddDialog = true },
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -149,7 +144,6 @@ fun PersonalCardsScreen(
         ) {
             item {
                 Spacer(modifier = Modifier.height(4.dp))
-                // Slot Status Bar (Updated for unlimited/flexible cards)
                 Card(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)
@@ -234,7 +228,6 @@ fun PersonalCardsScreen(
         }
     }
 
-    // Add Card Dialog
     if (showAddDialog) {
         AddOrEditCardDialog(
             initialTitle = "",
@@ -249,7 +242,6 @@ fun PersonalCardsScreen(
         )
     }
 
-    // Edit Card Dialog
     editingCard?.let { card ->
         AddOrEditCardDialog(
             initialTitle = card.title,
@@ -264,7 +256,6 @@ fun PersonalCardsScreen(
         )
     }
 
-    // Delete Card Confirmation Dialog
     cardToDelete?.let { card ->
         AlertDialog(
             onDismissRequest = { cardToDelete = null },
@@ -331,7 +322,6 @@ fun PersonalCardItem(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Header: Icon, Title, and Actions
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -399,7 +389,6 @@ fun PersonalCardItem(
                 }
             }
 
-            // Status pill
             Surface(
                 color = if (card.isComplete) VaultEmerald.copy(alpha = 0.15f) else MaterialTheme.colorScheme.surfaceVariant,
                 shape = RoundedCornerShape(8.dp)
@@ -413,12 +402,10 @@ fun PersonalCardItem(
                 )
             }
 
-            // Front & Back Side Cards
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                // Front Side
                 Box(modifier = Modifier.weight(1f)) {
                     MiniSideSlot(
                         label = "Front Side",
@@ -429,7 +416,6 @@ fun PersonalCardItem(
                     )
                 }
 
-                // Back Side
                 Box(modifier = Modifier.weight(1f)) {
                     MiniSideSlot(
                         label = "Back Side",
@@ -479,7 +465,6 @@ fun MiniSideSlot(
                     modifier = Modifier.fillMaxSize()
                 )
 
-                // Zoom badge
                 Surface(
                     color = Color.Black.copy(alpha = 0.6f),
                     shape = RoundedCornerShape(6.dp),
