@@ -2,6 +2,7 @@ package com.example.ui.screens
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -42,9 +43,10 @@ fun HomeScreen(
     val personalCards by viewModel.personalCards.collectAsState()
 
     var showEditProfileDialog by remember { mutableStateOf(false) }
+    
     val profileImagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
-    ) { uri ->
+    ) { uri: Uri? ->
         if (uri != null) {
             viewModel.setProfileImage(uri)
         }
@@ -101,9 +103,7 @@ fun HomeScreen(
                                     .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
                                     .clickable {
                                         profileImagePickerLauncher.launch(
-                                            androidx.activity.result.PickVisualMediaRequest(
-                                                ActivityResultContracts.PickVisualMedia.ImageOnly
-                                            )
+                                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                                         )
                                     },
                                 contentAlignment = Alignment.Center
