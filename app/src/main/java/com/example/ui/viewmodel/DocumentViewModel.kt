@@ -143,7 +143,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun updatePersonalCardDetails(cardId: String, title: String, cardNumber: String, notes: string) {
+    fun updatePersonalCardDetails(cardId: String, title: String, cardNumber: String, notes: String) {
         repository.updatePersonalCard(cardId, title = title, cardNumber = cardNumber, notes = notes)
         _userFeedback.value = "Card details updated"
     }
