@@ -138,7 +138,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
             _userFeedback.value = "Card added (${created.title})"
             true
         } else {
-            _userFeedback.value = "Maximum limit reached"
+            _userFeedback.value = "Failed to add card"
             false
         }
     }
