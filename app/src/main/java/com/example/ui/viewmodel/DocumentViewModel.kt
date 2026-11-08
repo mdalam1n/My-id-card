@@ -204,4 +204,3 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
-}
