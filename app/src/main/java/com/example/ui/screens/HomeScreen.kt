@@ -19,7 +19,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -45,12 +44,13 @@ fun HomeScreen(
     var showEditProfileDialog by remember { mutableStateOf(false) }
     
     val profileImagePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia()
-    ) { uri: Uri? ->
-        if (uri != null) {
-            viewModel.setProfileImage(uri)
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri: Uri? ->
+            if (uri != null) {
+                viewModel.setProfileImage(uri)
+            }
         }
-    }
+    )
 
     Scaffold(
         topBar = {
@@ -77,7 +77,6 @@ fun HomeScreen(
         ) {
             item {
                 Spacer(modifier = Modifier.height(4.dp))
-                // User Profile Header Card
                 Card(
                     shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(
@@ -155,7 +154,6 @@ fun HomeScreen(
                 }
             }
 
-            // Personal Cards Navigation Banner
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
@@ -222,7 +220,6 @@ fun HomeScreen(
                 )
             }
 
-            // List of Official Documents
             items(DocType.entries) { docType ->
                 val record = documents[docType] ?: DocumentRecord(id = docType.id, docType = docType, title = docType.title)
                 DocumentItemCard(
