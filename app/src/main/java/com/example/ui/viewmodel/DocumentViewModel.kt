@@ -26,7 +26,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
     val userProfile: StateFlow<UserProfile> = repository.userProfile
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UserProfile())
 
-    val documents: StateFlow<Map<DocType, DocumentRecord>> = repository.documents
+    val documents: StateFlow> = repository.documents
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
 
     val personalCards: StateFlow<List<PersonalCard>> = repository.personalCards
@@ -138,7 +138,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
             _userFeedback.value = "Card added (${created.title})"
             true
         } else {
-            _userFeedback.value = "Maximum limit of 5 personal cards reached"
+            _userFeedback.value = "Maximum limit reached"
             false
         }
     }
