@@ -1,4 +1,4 @@
-package com.example.ui.screens
+Package com.example.ui.screens
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -129,15 +129,14 @@ fun PersonalCardsScreen(
             )
         },
         floatingActionButton = {
-            if (personalCards.size < 5) {
-                FloatingActionButton(
-                    onClick = { showAddDialog = true },
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.testTag("add_card_fab")
-                ) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Card")
-                }
+            // Removed 5-card limit restriction for FAB
+            FloatingActionButton(
+                onClick = { showAddDialog = true },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.testTag("add_card_fab")
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Card")
             }
         }
     ) { paddingValues ->
@@ -150,7 +149,7 @@ fun PersonalCardsScreen(
         ) {
             item {
                 Spacer(modifier = Modifier.height(4.dp))
-                // Slot Status Bar
+                // Slot Status Bar (Updated for unlimited/flexible cards)
                 Card(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)
@@ -170,32 +169,20 @@ fun PersonalCardsScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Card Slots Used",
+                                text = "Total Cards Saved",
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                text = "${personalCards.size} of 5 Cards",
+                                text = "${personalCards.size} Cards",
                                 style = MaterialTheme.typography.labelLarge,
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
 
-                        LinearProgressIndicator(
-                            progress = { personalCards.size / 5f },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(8.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                        )
-
                         Text(
-                            text = if (personalCards.size < 5) {
-                                "You can add ${5 - personalCards.size} more custom personal cards (Work ID, Gym, Insurance, etc.)."
-                            } else {
-                                "Maximum limit of 5 card slots reached."
-                            },
+                            text = "Add unlimited custom personal cards (Work ID, Gym, Insurance, etc.) with Apple Wallet style view.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -344,7 +331,7 @@ fun PersonalCardItem(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Header: Icon, Slot #, Title, and Actions
+            // Header: Icon, Title, and Actions
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -610,7 +597,7 @@ fun EmptyCardsPlaceholder(onAddClick: () -> Unit) {
             Spacer(modifier = Modifier.height(6.dp))
 
             Text(
-                text = "Save up to 5 custom cards such as Work ID, Health Insurance, Gym Pass, or Library Card.",
+                text = "Save unlimited custom cards such as Work ID, Health Insurance, Gym Pass, or Library Card.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp)
