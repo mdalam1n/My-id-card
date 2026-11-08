@@ -21,7 +21,7 @@ class DocumentRepository(private val context: Context) {
     val userProfile: StateFlow<UserProfile> = _userProfile.asStateFlow()
 
     private val _documents = MutableStateFlow(loadDocuments())
-    val documents: StateFlow<Map<DocType, DocumentRecord>> = _documents.asStateFlow()
+    val documents: StateFlow> = _documents.asStateFlow()
 
     private val _personalCards = MutableStateFlow(loadPersonalCards())
     val personalCards: StateFlow<List<PersonalCard>> = _personalCards.asStateFlow()
@@ -146,11 +146,9 @@ class DocumentRepository(private val context: Context) {
         notes: String = ""
     ): PersonalCard? {
         val currentCards = _personalCards.value
-        if (currentCards.size >= 5) return null // Max 5 cards supported
+        // Removed the 5-card restriction completely for unlimited personal cards
 
-        // Find available slot index 0 to 4
-        val existingIndices = currentCards.map { it.slotIndex }.toSet()
-        val nextSlot = (0..4).firstOrNull { it !in existingIndices } ?: currentCards.size
+        val nextSlot = currentCards.size
 
         val newCard = PersonalCard(
             id = "card_${System.currentTimeMillis()}_$nextSlot",
