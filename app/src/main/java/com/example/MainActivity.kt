@@ -22,6 +22,7 @@ import com.example.ui.theme.MyIdCardTheme
 import com.example.ui.viewmodel.DocumentViewModel
 
 class MainActivity : ComponentActivity() {
+
     private val viewModel: DocumentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,34 +40,45 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+private const val ROUTE_HOME = "home"
+private const val ROUTE_DETAIL = "detail/{docTypeName}"
+private const val ROUTE_PERSONAL_CARDS = "personal_cards"
+
+/**
+ * String থেকে DocType খুঁজে বের করে। না পেলে NID ফেরত দেয়।
+ * try-catch ছাড়াই কাজ করে।
+ */
+private fun docTypeFromName(name: String?): DocType =
+    DocType.values().firstOrNull { it.name == name } ?: DocType.NID
+
 @Composable
 fun AppNavigation(viewModel: DocumentViewModel) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") {
+    NavHost(navController = navController, startDestination = ROUTE_HOME) {
+
+        composable(ROUTE_HOME) {
             HomeScreen(
                 viewModel = viewModel,
                 onNavigateToDetail = { docType ->
                     navController.navigate("detail/${docType.name}")
                 },
                 onNavigateToPersonalCards = {
-                    navController.navigate("personal_cards")
+                    navController.navigate(ROUTE_PERSONAL_CARDS)
                 }
             )
         }
-        
+
         composable(
-            route = "detail/{docTypeName}",
-            arguments = listOf(navArgument("docTypeName") { type = NavType.StringType })
+            route = ROUTE_DETAIL,
+            arguments = listOf(
+                navArgument("docTypeName") { type = NavType.StringType }
+            )
         ) { backStackEntry ->
-            val docTypeName = backStackEntry.arguments?.getString("docTypeName")
-            val docType = try {
-                DocType.valueOf(docTypeName ?: DocType.NID.name)
-            } catch (e: Exception) {
-                DocType.NID
-            }
-            
+            val docType = docTypeFromName(
+                backStackEntry.arguments?.getString("docTypeName")
+            )
+
             DocumentDetailScreen(
                 viewModel = viewModel,
                 docType = docType,
@@ -74,7 +86,7 @@ fun AppNavigation(viewModel: DocumentViewModel) {
             )
         }
 
-        composable("personal_cards") {
+        composable(ROUTE_PERSONAL_CARDS) {
             PersonalCardsScreen(
                 viewModel = viewModel,
                 onBackClick = { navController.popBackStack() }
