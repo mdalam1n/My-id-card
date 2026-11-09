@@ -26,7 +26,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
     val userProfile: StateFlow<UserProfile> = repository.userProfile
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UserProfile())
 
-    val documents: StateFlow> = repository.documents
+    val documents: StateFlow<Map<DocType, DocumentRecord>> = repository.documents
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
 
     val personalCards: StateFlow<List<PersonalCard>> = repository.personalCards
@@ -204,3 +204,4 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
+}
