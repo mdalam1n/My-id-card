@@ -18,7 +18,6 @@ import com.example.data.model.DocType
 import com.example.ui.screens.DocumentDetailScreen
 import com.example.ui.screens.HomeScreen
 import com.example.ui.screens.PersonalCardsScreen
-import com.example.ui.theme.MyIdCardTheme
 import com.example.ui.viewmodel.DocumentViewModel
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +27,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyIdCardTheme {
+            MaterialTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -43,13 +42,6 @@ class MainActivity : ComponentActivity() {
 private const val ROUTE_HOME = "home"
 private const val ROUTE_DETAIL = "detail/{docTypeName}"
 private const val ROUTE_PERSONAL_CARDS = "personal_cards"
-
-/**
- * String থেকে DocType খুঁজে বের করে। না পেলে NID ফেরত দেয়।
- * try-catch ছাড়াই কাজ করে।
- */
-private fun docTypeFromName(name: String?): DocType =
-    DocType.values().firstOrNull { it.name == name } ?: DocType.NID
 
 @Composable
 fun AppNavigation(viewModel: DocumentViewModel) {
@@ -75,21 +67,22 @@ fun AppNavigation(viewModel: DocumentViewModel) {
                 navArgument("docTypeName") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val docType = docTypeFromName(
-                backStackEntry.arguments?.getString("docTypeName")
-            )
+            val name = backStackEntry.arguments?.getString("docTypeName")
+            val docType = DocType.values().firstOrNull { it.name == name }
 
-            DocumentDetailScreen(
-                viewModel = viewModel,
-                docType = docType,
-                onBackClick = { navController.popBackStack() }
-            )
+            if (docType != null) {
+                DocumentDetailScreen(
+                    viewModel = viewModel,
+                    docType = docType,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
         }
 
         composable(ROUTE_PERSONAL_CARDS) {
             PersonalCardsScreen(
                 viewModel = viewModel,
-                onBackClick = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }
