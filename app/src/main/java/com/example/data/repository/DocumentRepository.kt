@@ -21,7 +21,7 @@ class DocumentRepository(private val context: Context) {
     val userProfile: StateFlow<UserProfile> = _userProfile.asStateFlow()
 
     private val _documents = MutableStateFlow(loadDocuments())
-    val documents: StateFlow> = _documents.asStateFlow()
+    val documents: StateFlow<Map<DocType, DocumentRecord>> = _documents.asStateFlow()
 
     private val _personalCards = MutableStateFlow(loadPersonalCards())
     val personalCards: StateFlow<List<PersonalCard>> = _personalCards.asStateFlow()
